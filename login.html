@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JMD School | Admin Login</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg,#07152e,#123d70);
+    padding: 20px;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 35px 28px;
+    border-radius: 18px;
+    box-shadow: 0 15px 50px rgba(0,0,0,.3);
+}
+
+.logo {
+    text-align: center;
+    font-size: 45px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    text-align: center;
+    color: #102c50;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #777;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+    margin-bottom: 20px;
+    outline: none;
+    font-size: 15px;
+}
+
+input:focus {
+    border-color: #1769aa;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: #123d70;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: .6;
+}
+
+#message {
+    text-align: center;
+    margin-top: 17px;
+    font-size: 14px;
+    color: #d22;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 25px;
+    color: #888;
+    font-size: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
+
+<div class="logo">🏫</div>
+
+<h2>J M D Public School</h2>
+
+<p class="subtitle">Principal & Admin Login</p>
+
+<form id="loginForm">
+
+<label>Email Address</label>
+<input type="email" id="email"
+placeholder="Enter your email" required>
+
+<label>Password</label>
+<input type="password" id="password"
+placeholder="Enter your password" required>
+
+<button type="submit" id="loginBtn">
+Secure Login
+</button>
+
+</form>
+
+<p id="message"></p>
+
+<div class="footer">
+© 2026 J M D Public School
+<br><br>
+Secure Administration Portal
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword,
+signOut
+}
+from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+import {
+getFirestore,
+doc,
+getDoc
+}
+from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyDNq5kaggRrAC0glzmgrzUbmFMOLdqaRdQ",
+authDomain: "jmdpublischool.firebaseapp.com",
+projectId: "jmdpublischool",
+storageBucket: "jmdpublischool.firebasestorage.app",
+messagingSenderId: "976668970137",
+appId: "1:976668970137:web:967ab3d043e3c8e747bc08",
+measurementId: "G-7JT587HZ4F"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const form = document.getElementById("loginForm");
+const message = document.getElementById("message");
+const button = document.getElementById("loginBtn");
+
+form.addEventListener("submit", async (e) => {
+
+e.preventDefault();
+
+const email = document.getElementById("email").value.trim();
+const password = document.getElementById("password").value;
+
+button.disabled = true;
+button.innerText = "Checking...";
+message.innerText = "";
+
+try {
+
+const result = await signInWithEmailAndPassword(
+auth, email, password
+);
+
+const user = result.user;
+
+const adminRef = doc(db, "admins", user.uid);
+const adminSnap = await getDoc(adminRef);
+
+if (!adminSnap.exists()) {
+throw new Error("Admin account not authorized.");
+}
+
+const role = adminSnap.data().role;
+
+if (role !== "admin" && role !== "principal") {
+throw new Error("You do not have admin permission.");
+}
+
+window.location.href = "admin.html";
+
+} catch (error) {
+
+await signOut(auth);
+
+message.innerText =
+error.code === "auth/invalid-credential"
+? "Incorrect email or password."
+: error.message;
+
+button.disabled = false;
+button.innerText = "Secure Login";
+
+}
+
+});
+
+</script>
+
+</body>
+  </html>
