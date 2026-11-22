@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JMD School | Admin Dashboard</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f2f5fa;
+    color: #172b4d;
+}
+
+header {
+    background: #102e55;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+header h2 {
+    font-size: 19px;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 7px;
+    padding: 11px 16px;
+    color: white;
+    background: #1769aa;
+    font-weight: bold;
+}
+
+.logout {
+    background: #dc3545;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+.welcome {
+    margin: 15px 0 25px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+    gap: 15px;
+}
+
+.card {
+    background: white;
+    padding: 23px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #0000000c;
+}
+
+.card h3 {
+    color: #68778c;
+    font-size: 14px;
+}
+
+.card h1 {
+    margin-top: 12px;
+    color: #1769aa;
+}
+
+.panel {
+    background: white;
+    padding: 22px;
+    margin-top: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #0000000c;
+}
+
+.panel h2 {
+    margin-bottom: 20px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    margin: 8px 0 15px;
+    font-size: 15px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 12px;
+}
+
+.save-btn {
+    background: #16834b;
+}
+
+.search {
+    margin-top: 15px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th, td {
+    padding: 13px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+th {
+    background: #f1f5fa;
+}
+
+.delete {
+    background: #dc3545;
+    margin: 3px;
+}
+
+.edit {
+    background: #e69a17;
+    margin: 3px;
+}
+
+.notice-item {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#message {
+    margin-top: 15px;
+    color: #16834b;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #777;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>JMD SCHOOL ADMIN</h2>
+    <button class="logout" id="logoutBtn">Logout</button>
+</header>
+
+<div class="container">
+
+    <div class="welcome">
+        <h1>Admin Dashboard</h1>
+        <p>Welcome to J M D Public School Administration</p>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Students</h3>
+            <h1 id="totalStudents">0</h1>
+        </div>
+
+        <div class="card">
+            <h3>Total Notices</h3>
+            <h1 id="totalNotices">0</h1>
+        </div>
+
+        <div class="card">
+            <h3>Account</h3>
+            <h1 style="font-size:18px">Active</h1>
+        </div>
+
+    </div>
+
+    <div class="panel">
+
+        <h2 id="formTitle">Add New Student</h2>
+
+        <form id="studentForm">
+
+            <input type="hidden" id="studentId">
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Student Name</label>
+                    <input id="studentName" required>
+                </div>
+
+                <div>
+                    <label>Father's Name</label>
+                    <input id="fatherName" required>
+                </div>
+
+                <div>
+                    <label>Class</label>
+                    <select id="className" required>
+                        <option value="">Select Class</option>
+                        <option>Nursery</option>
+                        <option>LKG</option>
+                        <option>UKG</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Mobile Number</label>
+                    <input id="phone" type="tel"
+                    maxlength="10" pattern="[0-9]{10}">
+                </div>
+
+                <div>
+                    <label>Address</label>
+                    <input id="address">
+                </div>
+
+                <div>
+                    <label>Exam Date</label>
+                    <input id="examDate" type="date">
+                </div>
+
+                <div>
+                    <label>Result</label>
+                    <input id="result" placeholder="e.g. 85%">
+                </div>
+
+            </div>
+
+            <button class="save-btn" type="submit" id="saveBtn">
+                Save Student
+            </button>
+
+            <button type="button" id="cancelEdit"
+            style="display:none;background:#777">
+                Cancel Edit
+            </button>
+
+        </form>
+
+        <p id="message"></p>
+
+    </div>
+
+    <div class="panel">
+
+        <h2>Student Management</h2>
+
+        <input class="search" id="search"
+        placeholder="Search Student...">
+
+        <div class="table-wrap">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Father</th>
+                        <th>Class</th>
+                        <th>Mobile</th>
+                        <th>Exam Date</th>
+                        <th>Result</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="studentList"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="panel">
+
+        <h2>Manage School Notices</h2>
+
+        <form id="noticeForm">
+
+            <input id="noticeTitle"
+            placeholder="Notice Title" required>
+
+            <textarea id="noticeText"
+            placeholder="Write Notice Here" required></textarea>
+
+            <button class="save-btn" type="submit">
+                Publish Notice
+            </button>
+
+        </form>
+
+        <div id="noticeList"></div>
+
+    </div>
+
+</div>
+
+<footer>
+© 2026 J M D Public School | Admin Panel
+</footer>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged,
+signOut
+}
+from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+import {
+getFirestore,
+doc,
+getDoc,
+collection,
+addDoc,
+getDocs,
+updateDoc,
+deleteDoc,
+serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+
+const firebaseConfig = {
+apiKey: "AIzaSyDNq5kaggRrAC0glzmgrzUbmFMOLdqaRdQ",
+authDomain: "jmdpublischool.firebaseapp.com",
+projectId: "jmdpublischool",
+storageBucket: "jmdpublischool.firebasestorage.app",
+messagingSenderId: "976668970137",
+appId: "1:976668970137:web:967ab3d043e3c8e747bc08",
+measurementId: "G-7JT587HZ4F"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let currentUser = null;
+let students = [];
+let notices = [];
+
+
+const $ = id => document.getElementById(id);
+
+
+onAuthStateChanged(auth, async user => {
+
+    if (!user) {
+        location.replace("login.html");
+        return;
+    }
+
+    try {
+
+        const adminDoc = await getDoc(
+            doc(db, "admins", user.uid)
+        );
+
+        if (!adminDoc.exists() ||
+        !["admin", "principal"].includes(adminDoc.data().role)) {
+
+            await signOut(auth);
+            location.replace("login.html");
+            return;
+        }
+
+        currentUser = user;
+
+        await loadStudents();
+        await loadNotices();
+
+    } catch(error) {
+
+        alert("Access verification failed: " + error.message);
+        await signOut(auth);
+        location.replace("login.html");
+
+    }
+
+});
+
+
+$("logoutBtn").onclick = async () => {
+    await signOut(auth);
+    location.replace("login.html");
+};
+
+
+// LOAD STUDENTS
+
+async function loadStudents() {
+
+    const snapshot = await getDocs(
+        collection(db, "students")
+    );
+
+    students = snapshot.docs.map(d => ({
+        id: d.id,
+        ...d.data()
+    }));
+
+    $("totalStudents").innerText = students.length;
+
+    showStudents(students);
+}
+
+
+// DISPLAY STUDENTS
+
+function showStudents(data) {
+
+    $("studentList").innerHTML = "";
+
+    data.forEach(s => {
+
+        const row = document.createElement("tr");
+
+        const values = [
+            s.name, s.father, s.className,
+            s.phone, s.examDate, s.result
+        ];
+
+        values.forEach(value => {
+            const td = document.createElement("td");
+            td.textContent = value || "-";
+            row.appendChild(td);
+        });
+
+        const action = document.createElement("td");
+
+        const edit = document.createElement("button");
+        edit.className = "edit";
+        edit.textContent = "Edit";
+        edit.onclick = () => editStudent(s.id);
+
+        const del = document.createElement("button");
+        del.className = "delete";
+        del.textContent = "Delete";
+        del.onclick = () => removeStudent(s.id);
+
+        action.append(edit, del);
+        row.appendChild(action);
+
+        $("studentList").appendChild(row);
+
+    });
+
+}
+
+
+// ADD / UPDATE STUDENT
+
+$("studentForm").onsubmit = async e => {
+
+    e.preventDefault();
+
+    const id = $("studentId").value;
+
+    const data = {
+        name: $("studentName").value.trim(),
+        father: $("fatherName").value.trim(),
+        className: $("className").value,
+        phone: $("phone").value.trim(),
+        address: $("address").value.trim(),
+        examDate: $("examDate").value,
+        result: $("result").value.trim()
+    };
+
+    try {
+
+        if (id) {
+
+            await updateDoc(
+                doc(db, "students", id),
+                data
+            );
+
+            $("message").innerText = "Student Updated Successfully!";
+
+        } else {
+
+            await addDoc(
+                collection(db, "students"),
+                {
+                    ...data,
+                    createdAt: serverTimestamp()
+                }
+            );
+
+            $("message").innerText = "Student Added Successfully!";
+
+        }
+
+        $("studentForm").reset();
+        $("studentId").value = "";
+        $("formTitle").innerText = "Add New Student";
+        $("saveBtn").innerText = "Save Student";
+        $("cancelEdit").style.display = "none";
+
+        await loadStudents();
+
+    } catch(error) {
+
+        alert("Error: " + error.message);
+
+    }
+
+};
+
+
+// EDIT STUDENT
+
+window.editStudent = id => {
+
+    const s = students.find(x => x.id === id);
+
+    if (!s) return;
+
+    $("studentId").value = id;
+    $("studentName").value = s.name || "";
+    $("fatherName").value = s.father || "";
+    $("className").value = s.className || "";
+    $("phone").value = s.phone || "";
+    $("address").value = s.address || "";
+    $("examDate").value = s.examDate || "";
+    $("result").value = s.result || "";
+
+    $("formTitle").innerText = "Edit Student";
+    $("saveBtn").innerText = "Update Student";
+    $("cancelEdit").style.display = "inline-block";
+
+    window.scrollTo({top:0, behavior:"smooth"});
+
+};
+
+
+$("cancelEdit").onclick = () => {
+
+    $("studentForm").reset();
+    $("studentId").value = "";
+    $("formTitle").innerText = "Add New Student";
+    $("saveBtn").innerText = "Save Student";
+    $("cancelEdit").style.display = "none";
+
+};
+
+
+// DELETE STUDENT
+
+async function removeStudent(id) {
+
+    if (!confirm("Are you sure you want to delete this student?"))
+        return;
+
+    try {
+
+        await deleteDoc(
+            doc(db, "students", id)
+        );
+
+        await loadStudents();
+
+    } catch(error) {
+
+        alert(error.message);
+
+    }
+
+}
+
+
+// SEARCH
+
+$("search").oninput = e => {
+
+    const q = e.target.value.toLowerCase();
+
+    showStudents(students.filter(s =>
+        (s.name || "").toLowerCase().includes(q) ||
+        (s.className || "").toLowerCase().includes(q)
+    ));
+
+};
+
+
+// LOAD NOTICES
+
+async function loadNotices() {
+
+    const snapshot = await getDocs(
+        collection(db, "notices")
+    );
+
+    notices = snapshot.docs.map(d => ({
+        id: d.id,
+        ...d.data()
+    }));
+
+    $("totalNotices").innerText = notices.length;
+
+    $("noticeList").innerHTML = "";
+
+    notices.forEach(n => {
+
+        const div = document.createElement("div");
+        div.className = "notice-item";
+
+        const title = document.createElement("strong");
+        title.textContent = n.title || "";
+
+        const del = document.createElement("button");
+        del.className = "delete";
+        del.textContent = "Delete";
+
+        del.onclick = async () => {
+
+            if (!confirm("Delete this notice?")) return;
+
+            try {
+                await deleteDoc(doc(db, "notices", n.id));
+                await loadNotices();
+            } catch(error) {
+                alert(error.message);
+            }
+
+        };
+
+        div.append(title, del);
+        $("noticeList").appendChild(div);
+
+    });
+
+}
+
+
+// ADD NOTICE
+
+$("noticeForm").onsubmit = async e => {
+
+    e.preventDefault();
+
+    try {
+
+        await addDoc(
+            collection(db, "notices"),
+            {
+                title: $("noticeTitle").value.trim(),
+                text: $("noticeText").value.trim(),
+                createdAt: serverTimestamp()
+            }
+        );
+
+        $("noticeForm").reset();
+
+        await loadNotices();
+
+        alert("Notice Published Successfully!");
+
+    } catch(error) {
+
+        alert(error.message);
+
+    }
+
+};
+
+</script>
+
+</body>
+  </html>
