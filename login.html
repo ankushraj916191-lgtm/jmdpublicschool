@@ -127,7 +127,10 @@ placeholder="Enter your password" required>
 <button type="submit" id="loginBtn">
 Secure Login
 </button>
-
+<button type="button" id="forgotBtn"
+style="background:none;color:#1769aa;border:none;cursor:pointer;margin-top:15px;">
+Forgot Password?
+</button>
 </form>
 
 <p id="message"></p>
@@ -177,7 +180,28 @@ const db = getFirestore(app);
 const form = document.getElementById("loginForm");
 const message = document.getElementById("message");
 const button = document.getElementById("loginBtn");
+document.getElementById("forgotBtn").onclick = async () => {
 
+const email = document.getElementById("email").value.trim();
+
+if (!email) {
+message.innerText = "Enter your Gmail first.";
+return;
+}
+
+try {
+
+await sendPasswordResetEmail(auth, email);
+
+message.innerText = "Password reset link sent! Check your Gmail.";
+
+} catch(error) {
+
+message.innerText = error.message;
+
+}
+
+};
 form.addEventListener("submit", async (e) => {
 
 e.preventDefault();
